@@ -10,15 +10,23 @@ HEIGHT = 1080
 MOVE_SPEED = 5
 METEOR_SPEED = 3
 SPAWN_DELAY = 50
+BULLET_SPEED = 10
 
+# Hintergrund
+background_surface = pygame.transform.scale(images.purple, (WIDTH, HEIGHT))
 
 # Charakter
-hero = Actor("playership3_orange", anchor=("center", "bottom"))
-hero.midcenter = (100, 100)
+hero = Actor("playership3_orange", anchor=("center", "center"))
+hero.midcenter = (100, 10000)
 hero.angle = 0
 hero.vx = 0
-hero.vy = 0
+hero.vy = 500
 
+bullet = Actor("laserblue04", anchor=("center", "center"))
+bullet.midcenter = (hero.x, hero.y)
+bullet.vx = 0
+    
+  
 # Meteoriten
 meteorite_types = [
     "meteorbrown_big4"
@@ -26,6 +34,7 @@ meteorite_types = [
 ]
 
 meteorites = []
+spawn_counter = 0
 
 
 def spawn_meteorite():
@@ -44,6 +53,8 @@ def spawn_meteorite():
 def draw():
     screen.surface.blit(background_surface, (0, 0))
     hero.draw()
+    if keyboard.space:
+        bullet.draw()
     for meteor in meteorites:
         meteor.draw()
 
@@ -76,8 +87,6 @@ def update():
     if keyboard.space and bullet.vx == 0:
         bullet.vx = -BULLET_SPEED
 
-    # Bewegung Bullet
-    bullet.x += bullet.vx
     
     # Meteoriten bewegen
     for meteor in meteorites[:]:
@@ -89,7 +98,7 @@ def update():
     # Kollisionsprüfung
     for meteor in meteorites:
         if hero.colliderect(meteor):
-            pygame.quit()
+            print("Game Over!")
             exit()
 
 
