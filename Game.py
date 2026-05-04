@@ -11,8 +11,6 @@ MOVE_SPEED = 5
 METEOR_SPEED = 3
 SPAWN_DELAY = 50
 
-# Hintergrund
-background_surface = pygame.transform.scale(images.purple, (WIDTH, HEIGHT))
 
 # Charakter
 hero = Actor("playership3_orange", anchor=("center", "bottom"))
@@ -28,7 +26,6 @@ meteorite_types = [
 ]
 
 meteorites = []
-spawn_counter = 0
 
 
 def spawn_meteorite():
@@ -73,7 +70,14 @@ def update():
     spawn_counter += 1
     if spawn_counter >= SPAWN_DELAY:
         spawn_meteorite()
-        spawn_counter = 0
+        spawn_counter = 30
+
+     # Schießen
+    if keyboard.space and bullet.vx == 0:
+        bullet.vx = -BULLET_SPEED
+
+    # Bewegung Bullet
+    bullet.x += bullet.vx
     
     # Meteoriten bewegen
     for meteor in meteorites[:]:
@@ -81,6 +85,15 @@ def update():
         # Meteoriten löschen wenn sie links das Fenster verlassen
         if meteor.x < -100:
             meteorites.remove(meteor)
+    
+    # Kollisionsprüfung
+    for meteor in meteorites:
+        if hero.colliderect(meteor):
+            pygame.quit()
+            exit()
+
+
+
 
 
 
