@@ -10,6 +10,7 @@ HEIGHT = 1080
 MOVE_SPEED = 5
 METEOR_SPEED = 3
 SPAWN_DELAY = 50
+METEOR_BIG_SPEED = 5
 BULLET_SPEED = 10
 
 # Hintergrund
@@ -20,18 +21,20 @@ hero = Actor("playership3_orange", anchor=("center", "center"))
 hero.midcenter = (100, 10000)
 hero.angle = 0
 hero.vx = 0
-hero.vy = 500
+hero.vy = 0
 
-bullet = Actor("laserblue04", anchor=("center", "center"))
-bullet.midcenter = (hero.x, hero.y)
-bullet.vx = 0
-    
-  
 # Meteoriten
 meteorite_types = [
-    "meteorbrown_big4"
+    "meteorbrown_big4","meteorbrown_big1","meteorbrown_big2","meteorbrown_big3",
+    "meteorbrown_med1","meteorbrown_small1","meteorbrown_tiny1","meteorgrey_big1",
+    "meteorgrey_big2","meteorgrey_big4","meteorgrey_med1","meteorgrey_med2","meteorgrey_small1",
+    
+
     
 ]
+
+meterorite_big = [ "meteorbrown_big4","meteorbrown_big1","meteorbrown_big2","meteorbrown_big3","meteorgrey_big1",
+    "meteorgrey_big2","meteorgrey_big4"]
 
 meteorites = []
 spawn_counter = 0
@@ -52,6 +55,8 @@ def spawn_meteorite():
 
 def draw():
     screen.surface.blit(background_surface, (0, 0))
+    base.draw()
+    base2.draw()
     hero.draw()
     if keyboard.space:
         bullet.draw()
@@ -100,6 +105,8 @@ def update():
         if hero.colliderect(meteor):
             print("Game Over!")
             exit()
+
+
 
 
 
